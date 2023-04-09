@@ -2,16 +2,18 @@ package br.edu.unijui.temperatureconverter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
-    String[] temperatureLabels = { "Celsius", "Farenheit", "Kelvin" };
+    TemperatureType[] temperatureLabels = { TemperatureType.Celsius, TemperatureType.Fahrenheit, TemperatureType.Kelvin };
     Spinner cbOrigin;
     Spinner cbOutput;
 
@@ -47,13 +49,87 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupButton() {
-        submitButton.setOnClickListener(view -> System.out.println("cricou"));
+        submitButton.setOnClickListener(view -> ConvertTemperature());
     }
 
-    private float celsiusToFarenheit(float celsius) {
-        float farenheit = (celsius * 1.8f) + 32;
+    private void ConvertTemperature() {
+        TemperatureType inputType = (TemperatureType) cbOrigin.getSelectedItem();
+        TemperatureType outputType = (TemperatureType) cbOutput.getSelectedItem();
+        float temperature = Float.parseFloat(inputText.getText().toString());
 
-        return farenheit;
+        float result = 0f;
+
+        switch (inputType){
+            case Celsius:
+                result = convertCelsius(outputType, temperature);
+                break;
+            case Fahrenheit:
+                result = convertFahrenheit(outputType, temperature);
+                break;
+            case Kelvin:
+                result = convertKelvin(outputType, temperature);
+                break;
+        }
+
+        outputText.setText(Float.toString(result));
+    }
+
+    private float convertCelsius(TemperatureType outputType, float temp) {
+        float result = 0f;
+
+        switch (outputType) {
+            case Celsius:
+                result = temp;
+                break;
+            case Fahrenheit:
+                result = celsiusToFahrenheit(temp);
+                break;
+            case Kelvin:
+                result = celsiusToKelvin(temp);
+                break;
+        }
+
+        return result;
+    }
+    
+    private float convertFahrenheit(TemperatureType outputType, float temp) {
+        float result = 0f;
+
+        switch (outputType) {
+            case Celsius:
+                result = fahrenheitToCelsius(temp);
+                break;
+            case Fahrenheit:
+                result = temp;
+                break;
+            case Kelvin:
+                result = fahrenheitToKelvin(temp);
+                break;
+        }
+
+        return result;
+    }
+
+    private float convertKelvin(TemperatureType outputType, float temp) {
+        float result = 0f;
+
+        switch (outputType) {
+            case Celsius:
+                result = kelvinToCelsius(temp);
+                break;
+            case Fahrenheit:
+                result = kelvinToFahrenheit(temp);
+                break;
+            case Kelvin:
+                result = temp;
+                break;
+        }
+
+        return result;
+    }
+
+    private float celsiusToFahrenheit(float celsius) {
+        return (celsius * 1.8f) + 32;
     }
 
     private float celsiusToKelvin(float celsius) {
@@ -64,22 +140,16 @@ public class MainActivity extends AppCompatActivity {
         return  kelvin - 273.15f;
     }
 
-    private float kelvinToFarenheit(float kelvin) {
-        float farenheint = ((kelvin - 273.15f) * 1.8f) + 32;
-
-        return farenheint;
+    private float kelvinToFahrenheit(float kelvin) {
+        return ((kelvin - 273.15f) * 1.8f) + 32;
     }
 
-    private float farenheitToCelsius(float far) {
-        float celsius = (far - 32) * (5/9f);
-
-        return celsius;
+    private float fahrenheitToCelsius(float far) {
+        return (far - 32) * (5/9f);
     }
 
-    private float farenheitToKelvin(float far) {
-        float kelvin = (far - 32) * (5/9f) + 273.15f;
-
-        return kelvin;
+    private float fahrenheitToKelvin(float far) {
+        return (far - 32) * (5/9f) + 273.15f;
     }
 
 }
