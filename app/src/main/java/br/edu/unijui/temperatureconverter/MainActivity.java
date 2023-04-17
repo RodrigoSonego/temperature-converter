@@ -74,60 +74,50 @@ public class MainActivity extends AppCompatActivity {
         outputText.setText(Float.toString(result));
     }
 
-    private float convertCelsius(TemperatureType outputType, float temp) {
-        float result = 0f;
-
+    private float convertCelsius(TemperatureType outputType, float value) {
         switch (outputType) {
             case Celsius:
-                result = temp;
-                break;
+                return value;
+
             case Fahrenheit:
-                result = celsiusToFahrenheit(temp);
-                break;
+                return celsiusToFahrenheit(value);
+
             case Kelvin:
-                result = celsiusToKelvin(temp);
-                break;
+                return celsiusToKelvin(value);
         }
 
-        return result;
+        return value;
     }
-    
-    private float convertFahrenheit(TemperatureType outputType, float temp) {
-        float result = 0f;
 
+    private float convertFahrenheit(TemperatureType outputType, float value) {
         switch (outputType) {
             case Celsius:
-                result = fahrenheitToCelsius(temp);
-                break;
+                return fahrenheitToCelsius(value);
+
             case Fahrenheit:
-                result = temp;
-                break;
+                return value;
+
             case Kelvin:
-                result = fahrenheitToKelvin(temp);
-                break;
+                return fahrenheitToKelvin(value);
         }
 
-        return result;
+        return value;
     }
 
-    private float convertKelvin(TemperatureType outputType, float temp) {
-        float result = 0f;
-
+    private float convertKelvin(TemperatureType outputType, float value) {
         switch (outputType) {
             case Celsius:
-                result = kelvinToCelsius(temp);
-                break;
+                return kelvinToCelsius(value);
+
             case Fahrenheit:
-                result = kelvinToFahrenheit(temp);
-                break;
+                return kelvinToFahrenheit(value);
+
             case Kelvin:
-                result = temp;
-                break;
+                return value;
         }
 
-        return result;
+        return value;
     }
-
     private float celsiusToFahrenheit(float celsius) {
         return (celsius * 1.8f) + 32;
     }
